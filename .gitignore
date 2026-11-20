@@ -1,0 +1,37 @@
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock.orig
+
+# GTK / desktop resources generated from the token table
+desktop/resources/tokens.css.bak
+
+# Android / Gradle
+.gradle/
+android/build/
+android/app/build/
+android/local.properties
+android/.cxx/
+android/app/src/main/jniLibs/
+android/build/generated/uniffi/
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+*.swp
+.DS_Store
+
+# Local secrets and environment
+.env
+.dev.vars
+*.p12
+*.jks
+*.keystore
+
+# Build artefacts
+*.o
+*.so.bak
+*.msi
+*.AppImage
+*.flatpak
