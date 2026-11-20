@@ -3,10 +3,16 @@
 **Private correspondence, delivered without a middleman.**
 
 An end-to-end encrypted messenger that talks device to device: no accounts, no
-phone numbers, no server that sees who talks to whom. Peers find each other by
-public key, punch through NATs when they can, and fall back to a stateless relay
-when they cannot. An always-on desktop node holds your queue for when your phone
-is asleep, so nobody has to run a mailbox service for you.
+phone numbers, and **no server that holds your contact list or your message
+contents**. Peers find each other by public key, punch through NATs when they
+can, and fall back to a stateless relay when they cannot. An always-on desktop
+node holds your queue for when your phone is asleep, so nobody has to run a
+mailbox service for you.
+
+There is still a relay, and it still sees IP addresses and timing. What it
+cannot see is who you are, who you know, or what you said. `DESIGN.md` §8 states
+exactly what is and is not protected — read it before quoting a claim from this
+page.
 
 > **Status: design phase.** There is no code yet, and that is deliberate. The
 > decisions are being settled in `DESIGN.md` before anything is written, because
@@ -22,7 +28,7 @@ one commit.
 | --- | --- | --- |
 | Linux | GTK4 + relm4 (Rust) | primary target |
 | Android | Kotlin + Jetpack Compose | primary target |
-| Windows | same GTK4 shell via MSYS2 | best-effort, CI-built |
+| Windows | same GTK4 shell via MSYS2 | undecided for v1 — see §7 |
 
 ## Stack, in one table
 

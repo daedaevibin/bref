@@ -245,3 +245,49 @@ The one screen where the design carries security weight.
 4. **Message log merge:** hybrid logical clock parameters and conflict display
    for concurrent edits on the same conversation. Needs a written decision
    before the first commit to `crates/core`.
+
+---
+
+# 8. Threat model and metadata
+
+Any claim the README makes has to be defensible here. Reviewers will ask
+"protects against whom?", and "nobody" is not an answer.
+
+## 8.1 What is protected
+
+| Adversary | Protected | Not protected |
+| --- | --- | --- |
+| Relay operator | message contents, contact list, message history, account identity (there are no accounts) | IP addresses of both peers, timing and volume of traffic, the fact that two endpoints exchanged packets |
+| Anyone who obtains the relay's database | everything — the relay stores nothing | — |
+| Network observer (ISP, passive) | message contents, identity of peers beyond IP addresses | the fact that a connection exists at all |
+| Someone who steals the phone | message contents, unless the device is unlocked | decrypted history while unlocked |
+| Malicious contact | nothing beyond ordinary E2EE | your replies, your existence, your timing |
+
+## 8.2 What is explicitly not claimed
+
+- **No anonymity.** Traffic analysis against a relay, or against an ISP, can
+  identify peers. Onion routing is not implemented and is not planned.
+- **No protection against a global passive adversary.** Fine-grained timing
+  correlation between ingress and egress at one relay is possible in principle.
+- **No metadata stripping on the path.** iroh relays see IP pairs. This is the
+  price of working NAT traversal; hiding it would require onion routing, which
+  we rejected for latency and battery reasons.
+- **No push infrastructure**, therefore no third party is told when you receive
+  a message. This is why v1 has no FCM/APNs and why Android may need a
+  foreground service.
+- **No forward secrecy for the message log at rest.** Persisted history is
+  encrypted with a device key, not with the ratchet; a stolen unlocked device
+  exposes it.
+
+## 8.3 Wording rules for public text
+
+Because the difference between "no server" and "no server that sees your
+messages" is the whole argument:
+
+- Say **"no server holds your contact list or message contents"**, never
+  "no server" and never "serverless".
+- Say **"stateless relay"**, because a stateless relay is a server, and
+  claiming otherwise is the mistake ZappierV2 most likely made.
+- Never claim anonymity, unlinkability, or "zero metadata".
+- Pairing text must always name the 6-word fingerprint; a shortened fingerprint
+  is a security bug, not a UI convenience.
